@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&display=swap");
+
+:root {
+  /* FONT FAMILY */
+  --font-family: "Space Mono", monospace;
+
+  /* FONT SIZE */
+  --text-xs: 0.75rem; /*12px*/
+  --text-sm: 0.875rem; /*14px*/
+  --text-md: 1rem; /*16px*/
+  --text-lg: 1.125rem; /*18px*/
+  --text-xl: 1.25rem; /*20px*/
+  --text-2xl: 1.5rem; /*24px*/
+  --text-3xl: 1.875rem; /*30px*/
+  --text-4xl: 2.25rem; /*36px*/
+  --text-5xl: 3rem; /*36px*/
+
+  /* FONT WEIGHT */
+  --font-weight-thin: 100;
+  --font-weight-extra-light: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semi-bold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extra-bold: 800;
+  --font-weight-black: 900;
+
+  /* SPACING */
+  --spacing-2xs: 0.125rem; /*2px*/
+  --spacing-xs: 0.25rem; /*4px*/
+  --spacing-sm: 0.5rem; /*8px*/
+  --spacing-md: 0.75rem; /*12px*/
+  --spacing-lg: 1rem; /*16px*/
+  --spacing-xl: 1.25rem; /*20px*/
+  --spacing-2xl: 1.75rem; /*28px*/
+  --spacing-3xl: 2rem; /*32px*/
+  --spacing-4xl: 2.25rem; /*36px*/
+
+  /* BORDER RADIUS */
+  --border-radius-xs: 0.125rem; /*2px*/
+  --border-radius-sm: 0.25rem; /*4px*/
+  --border-radius-md: 0.375rem; /*6px*/
+  --border-radius-lg: 0.5rem; /*8px*/
+  --border-radius-xl: 0.75rem; /*12px*/
+  --border-radius-2xl: 1rem; /*16px*/
+  --border-radius-circle: 9999rem;
+
+  /* COLORS */
+  /* color palette (e.g. --color-primary)
+    primary: main call-to-action color
+    accent: used to highlight something important
+    neutral: grayscale tones (whites, grays, blacks)
+    feedback: success error, warning, etc
+  */
+  /* primary */
+  --c-strong-cyan: hsl(172, 67%, 45%);
+  /* neutral */
+  --c-very-dark-cyan: hsl(183, 100%, 15%);
+  --c-dark-grayish-cyan: hsl(186, 14%, 43%);
+  --c-grayish-cyan: hsl(184, 14%, 56%);
+  --c-light-grayish-cyan: hsl(185, 41%, 84%);
+  --c-very-light-grayish-cyan: hsl(189, 41%, 97%);
+  --c-white: hsl(0, 0%, 100%);
+  /* semantic colors (e.g. --color-link: var(--color-primary) */
+}
+
+/* These are not useful for frontendmentor unless trying to create custom theme */
+html[data-theme="dark"] {
+  /* COLORS */
+}
+
+html[data-theme="light"] {
+  /* COLORS */
+}
+
+/* main */
+body {
+  font-family: var(--font-family);
+  font-size: var(--text-md);
+  font-weight: var(--font-weight-bold);
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
