@@ -1,3 +1,7 @@
+import { createGlobalStyle } from "styled-components";
+
+export const GlobalStyle = createGlobalStyle`
+/* CSS RESET */
 /* from https://andy-bell.co.uk/a-modern-css-reset/ */
 
 /* Box sizing rules, remove all padding/margin */
@@ -66,3 +70,4 @@ select {
     scroll-behavior: auto !important;
   }
 }
+`;
