@@ -1,12 +1,13 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { RadioButton } from "./RadioButton";
+import { NumberInput } from "./NumberInput";
 
 const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.color.white};
   border-top-left-radius: ${({ theme }) => theme.borderRadius.container};
   border-top-right-radius: ${({ theme }) => theme.borderRadius.container};
-  font-size: ${({ theme }) => theme.fontSize.base1000};
+  font-size: ${({ theme }) => theme.fontSize.base400};
   padding: ${({ theme }) => theme.spacing.base100};
   width: 100%;
 `;
@@ -15,6 +16,8 @@ const TipSection = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  gap: ${({ theme }) => theme.spacing.base400};
 `;
 
 type Tip = {
@@ -60,25 +63,60 @@ const initialTips: Tip[] = [
 ];
 
 export const TipCalculator: React.FC<Props> = ({}: Props) => {
+  const [billAmount, setBillAmount] = useState("");
+  const [customTip, setCustomTip] = useState("");
+  const [numPeople, setNumPeople] = useState("");
   const [tips, setTips] = useState(initialTips);
 
-  const handleTipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newTips = tips.map((tip) => {
-      if (tip.id === e.target.id) {
-        return { ...tip, selected: true };
-      } else {
-        return { ...tip, selected: false };
-      }
-    });
+  // TODO
+  const handleCustomTipBlur = (e: React.FocusEvent<HTMLInputElement>) => {};
 
-    setTips(newTips);
+  const handleCustomTipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newCustomTip = e.target.value;
+    setCustomTip(newCustomTip);
+    if (newCustomTip !== "") {
+      setTips(initialTips);
+    }
   };
 
   // TODO
-  const handleCustomTipChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
+  const handleBillBlur = (e: React.FocusEvent<HTMLInputElement>) => {};
+
+  const handleBillChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBillAmount(e.target.value);
+  };
+
+  // TODO
+  const handlePeopleBlur = (e: React.FocusEvent<HTMLInputElement>) => {};
+
+  const handlePeopleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNumPeople(e.target.value);
+  };
+
+  const handleTipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTips = tips.map((tip) => {
+      return { ...tip, selected: tip.id === e.target.id };
+    });
+
+    setCustomTip("");
+    setTips(newTips);
+  };
 
   return (
     <Wrapper>
+      <div>
+        <div>
+          <label htmlFor="bill-amount">Bill</label>
+          <div>Bill Error</div>
+        </div>
+        <NumberInput
+          onBlur={handleBillBlur}
+          onChange={handleBillChange}
+          id="bill-amount"
+          placeholder="0"
+          value={billAmount}
+        />
+      </div>
       <TipSection>
         {tips.map((tip) => {
           return (
@@ -93,7 +131,46 @@ export const TipCalculator: React.FC<Props> = ({}: Props) => {
             />
           );
         })}
+        <NumberInput
+          onBlur={handleCustomTipBlur}
+          onChange={handleCustomTipChange}
+          id="custom-tip"
+          placeholder="Custom"
+          value={customTip}
+        />
       </TipSection>
+      <div>
+        <div>
+          <label htmlFor="number-people">Number of People</label>
+          <div>Number People Error</div>
+        </div>
+        <NumberInput
+          onBlur={handlePeopleBlur}
+          onChange={handlePeopleChange}
+          id="number-people"
+          placeholder="0"
+          value={numPeople}
+        />
+      </div>
+      <div>
+        <div>
+          <div>
+            <div>Tip Amount</div>
+            <div>/ person</div>
+          </div>
+          <div>$4.27</div>
+        </div>
+        <div>
+          <div>
+            <div>Total</div>
+            <div>/ person</div>
+          </div>
+          <div>$32.79</div>
+        </div>
+        <div>
+          <button>reset</button>
+        </div>
+      </div>
     </Wrapper>
   );
 };
