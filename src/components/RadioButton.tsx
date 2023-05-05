@@ -3,14 +3,14 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   font-size: ${({ theme }) => theme.fontSize.base500};
-  padding: ${({ theme }) => theme.spacing.base300};
 `;
 
 const Label = styled.label`
   background-color: ${({ theme }) => theme.color.cyan500};
   border-radius: ${({ theme }) => theme.borderRadius.input};
   color: ${({ theme }) => theme.color.white};
-  padding: ${({ theme }) => theme.spacing.base200};
+  padding: ${({ theme }) =>
+    theme.spacing.base400 + " " + theme.spacing.base200};
   cursor: pointer;
   display: inline-block;
   text-align: center;
