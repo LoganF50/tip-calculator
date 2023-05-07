@@ -99,7 +99,7 @@ const frontendMentorTheme = {
   },
 };
 
-export const themes = {
+export const Themes = {
   dark: {
     ...defaultTheme,
     name: darkTheme.name,

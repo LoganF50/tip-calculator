@@ -1,8 +1,8 @@
 import styled, { ThemeProvider } from "styled-components";
 import { GlobalStyle } from "./styles/globalStyle";
-import { themes } from "./styles/themes";
+import { Themes } from "./styles/themes";
 import { Header } from "./components/Header";
-import { TipCalculator } from "./components/TipCalculator";
+import { Calculator } from "./components/Calculator";
 
 const StyledApp = styled.div`
   #root {
@@ -26,13 +26,13 @@ const StyledApp = styled.div`
 function App() {
   return (
     <>
-      <ThemeProvider theme={themes.frontendMentor}>
+      <ThemeProvider theme={Themes.frontendMentor}>
         <GlobalStyle />
         <StyledApp>
           <Header>
             <img src="/images/logo.svg" alt="Splitter" />
           </Header>
-          <TipCalculator />
+          <Calculator />
         </StyledApp>
       </ThemeProvider>
     </>
