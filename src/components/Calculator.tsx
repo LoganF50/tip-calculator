@@ -1,23 +1,38 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { RadioButton } from "./RadioButton";
-import { NumberInput } from "./NumberInput";
+import { NumberInput, LabeledNumberInput } from "./NumberInput";
+import { TipOutput } from "./TipOutput";
 
 const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.color.white};
   border-top-left-radius: ${({ theme }) => theme.borderRadius.container};
   border-top-right-radius: ${({ theme }) => theme.borderRadius.container};
   font-size: ${({ theme }) => theme.fontSize.base400};
-  padding: ${({ theme }) => theme.spacing.base100};
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.base600};
+  padding: ${({ theme }) => theme.spacing.base800};
   width: 100%;
+  min-height: 100vh;
 `;
 
-const TipSection = styled.div`
+const TipInputs = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, 1fr);
   grid-auto-rows: 1fr;
   gap: ${({ theme }) => theme.spacing.base400};
+`;
+
+const TipSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.base400};
+
+  div {
+    color: ${({ theme }) => theme.color.cyan400};
+  }
 `;
 
 type Tip = {
@@ -62,11 +77,21 @@ const initialTips: Tip[] = [
   },
 ];
 
-export const TipCalculator: React.FC<Props> = ({}: Props) => {
+export const Calculator: React.FC<Props> = ({}: Props) => {
   const [billAmount, setBillAmount] = useState("");
   const [customTip, setCustomTip] = useState("");
   const [numPeople, setNumPeople] = useState("");
   const [tips, setTips] = useState(initialTips);
+
+  // TODO
+  const getTipPerPerson = () => {
+    return "$4.27";
+  };
+
+  // TODO
+  const getTotalPerPerson = () => {
+    return "$32.79";
+  };
 
   // TODO
   const handleCustomTipBlur = (e: React.FocusEvent<HTMLInputElement>) => {};
@@ -102,75 +127,75 @@ export const TipCalculator: React.FC<Props> = ({}: Props) => {
     setTips(newTips);
   };
 
+  // TODO
+  const isResetDisabled = () => {
+    // tips not working rest seems to work
+    tips.forEach((tip) => {
+      if (tip.selected) {
+        return false;
+      }
+    });
+    return billAmount === "" && customTip === "" && numPeople === "";
+  };
+
+  const resetForm = () => {
+    setBillAmount("");
+    setCustomTip("");
+    setNumPeople("");
+    setTips(initialTips);
+  };
+
   return (
     <Wrapper>
-      <div>
-        <div>
-          <label htmlFor="bill-amount">Bill</label>
-          <div>Bill Error</div>
-        </div>
-        <NumberInput
-          onBlur={handleBillBlur}
-          onChange={handleBillChange}
-          id="bill-amount"
-          placeholder="0"
-          value={billAmount}
-        />
-      </div>
+      <LabeledNumberInput
+        onBlur={handleBillBlur}
+        onChange={handleBillChange}
+        error="wrong input"
+        id="bill-amount"
+        label="Bill"
+        placeholder="0"
+        value={billAmount}
+      />
       <TipSection>
-        {tips.map((tip) => {
-          return (
-            <RadioButton
-              key={tip.id}
-              onChange={handleTipChange}
-              checked={tip.selected}
-              id={tip.id}
-              label={tip.label}
-              name={"tip"}
-              value={tip.label}
-            />
-          );
-        })}
-        <NumberInput
-          onBlur={handleCustomTipBlur}
-          onChange={handleCustomTipChange}
-          id="custom-tip"
-          placeholder="Custom"
-          value={customTip}
-        />
+        <div>Select Tip %</div>
+        <TipInputs>
+          {tips.map((tip) => {
+            return (
+              <RadioButton
+                key={tip.id}
+                onChange={handleTipChange}
+                checked={tip.selected}
+                id={tip.id}
+                label={tip.label}
+                name={"tip"}
+                value={tip.label}
+              />
+            );
+          })}
+          <NumberInput
+            onBlur={handleCustomTipBlur}
+            onChange={handleCustomTipChange}
+            id="custom-tip"
+            placeholder="Custom"
+            value={customTip}
+          />
+        </TipInputs>
       </TipSection>
-      <div>
-        <div>
-          <label htmlFor="number-people">Number of People</label>
-          <div>Number People Error</div>
-        </div>
-        <NumberInput
-          onBlur={handlePeopleBlur}
-          onChange={handlePeopleChange}
-          id="number-people"
-          placeholder="0"
-          value={numPeople}
-        />
-      </div>
-      <div>
-        <div>
-          <div>
-            <div>Tip Amount</div>
-            <div>/ person</div>
-          </div>
-          <div>$4.27</div>
-        </div>
-        <div>
-          <div>
-            <div>Total</div>
-            <div>/ person</div>
-          </div>
-          <div>$32.79</div>
-        </div>
-        <div>
-          <button>reset</button>
-        </div>
-      </div>
+      <LabeledNumberInput
+        onBlur={handlePeopleBlur}
+        onChange={handlePeopleChange}
+        error="wrong input"
+        id="number-people"
+        label="Number of People"
+        placeholder="0"
+        value={numPeople}
+      />
+      <TipOutput
+        disabled={isResetDisabled()}
+        tip={getTipPerPerson()}
+        total={getTotalPerPerson()}
+        onReset={resetForm}
+      />
     </Wrapper>
   );
 };

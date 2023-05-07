@@ -11,7 +11,7 @@ const Input = styled.input.attrs({ type: "number" })`
   min-width: 0; /* inputs come with a min-width > 0 so need to set at 0 then set width to 100% so it'll shrink as expected */
   width: 100%;
   text-align: right;
-  border: 3px solid ${({ theme }) => theme.color.cyan100};
+  border: 2px solid ${({ theme }) => theme.color.cyan100};
 
   // remove number arrows (firefox)
   appearance: textfield;
@@ -27,27 +27,44 @@ const Input = styled.input.attrs({ type: "number" })`
   &:hover,
   :focus {
     cursor: pointer;
-    border: 3px solid ${({ theme }) => theme.color.primary};
+    border: 2px solid ${({ theme }) => theme.color.primary};
     outline: none;
   }
 `;
 
-type Props = {
+const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  span {
+    color: ${({ theme }) => theme.color.error};
+  }
+`;
+
+const Label = styled.label`
+  color: ${({ theme }) => theme.color.cyan400};
+`;
+
+type NumberInputProps = {
   onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  icon: string;
   id: string;
   placeholder: string;
   value: string;
 };
 
-export const NumberInput: React.FC<Props> = ({
+type LabeledNumberInputProps = NumberInputProps & {
+  label: string;
+  error: string;
+};
+
+export const NumberInput: React.FC<NumberInputProps> = ({
   onBlur,
   onChange,
   id,
   placeholder,
   value,
-}: Props) => {
+}: NumberInputProps) => {
   return (
     <Input
       id={id}
@@ -56,5 +73,31 @@ export const NumberInput: React.FC<Props> = ({
       onBlur={onBlur}
       onChange={onChange}
     />
+  );
+};
+
+export const LabeledNumberInput: React.FC<LabeledNumberInputProps> = ({
+  onBlur,
+  onChange,
+  error,
+  id,
+  label,
+  placeholder,
+  value,
+}: LabeledNumberInputProps) => {
+  return (
+    <div>
+      <Row>
+        <Label htmlFor={id}>{label}</Label>
+        <span>{error}</span>
+      </Row>
+      <Input
+        id={id}
+        placeholder={placeholder}
+        value={value}
+        onBlur={onBlur}
+        onChange={onChange}
+      />
+    </div>
   );
 };
