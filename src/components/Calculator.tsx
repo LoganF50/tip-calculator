@@ -87,9 +87,32 @@ export const Calculator: React.FC<Props> = ({}: Props) => {
   const [numPeople, setNumPeople] = useState("");
   const [tips, setTips] = useState(initialTips);
 
+  const getSelectedTip = () => {
+    tips.map((tip) => {
+      if (tip.selected) {
+        return tip.percentage;
+      }
+    });
+
+    return Number(customTip) / 100;
+  };
+
   // TODO
   const getTipPerPerson = () => {
-    return "$4.27";
+    const billAsNum = Number(billAmount);
+    const numPeopleAsNum = Number(numPeople);
+    const tipAsNum = Number(getSelectedTip());
+    const tipPerPerson = Number((billAsNum * tipAsNum) / numPeopleAsNum);
+
+    if (isNaN(tipPerPerson)) {
+      return "$0.00";
+    } else {
+      return tipPerPerson.toLocaleString("us-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+      });
+    }
   };
 
   // TODO
