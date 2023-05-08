@@ -4,7 +4,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.color.cyan500};
-  border-radius: ${({ theme }) => theme.borderRadius.container};
+  border-radius: ${({ theme }) => theme.borderRadius.base400};
   padding: ${({ theme }) => theme.spacing.base600};
   padding-top: ${({ theme }) => theme.spacing.base900};
   gap: ${({ theme }) => theme.spacing.base800};

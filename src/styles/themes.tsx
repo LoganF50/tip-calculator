@@ -95,7 +95,7 @@ const frontendMentorTheme = {
   borderRadius: {
     ...defaultTheme.borderRadius,
     input: defaultTheme.borderRadius.base100,
-    container: defaultTheme.borderRadius.base400,
+    container: defaultTheme.borderRadius.base500,
   },
 };
 

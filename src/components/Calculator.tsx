@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   font-size: ${({ theme }) => theme.fontSize.base400};
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.base600};
+  gap: ${({ theme }) => theme.spacing.base700};
   padding: ${({ theme }) => theme.spacing.base800};
   width: 100%;
   min-height: 100vh;
@@ -22,7 +22,7 @@ const TipInputs = styled.div`
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, 1fr);
   grid-auto-rows: 1fr;
-  gap: ${({ theme }) => theme.spacing.base400};
+  gap: ${({ theme }) => theme.spacing.base500};
 `;
 
 const TipSection = styled.div`
@@ -33,6 +33,10 @@ const TipSection = styled.div`
   div {
     color: ${({ theme }) => theme.color.cyan400};
   }
+`;
+
+const Heading = styled.div`
+  font-size: ${({ theme }) => theme.fontSize.base300};
 `;
 
 type Tip = {
@@ -152,12 +156,13 @@ export const Calculator: React.FC<Props> = ({}: Props) => {
         onChange={handleBillChange}
         error="wrong input"
         id="bill-amount"
+        imgSrc="/images/icon-dollar.svg"
         label="Bill"
         placeholder="0"
         value={billAmount}
       />
       <TipSection>
-        <div>Select Tip %</div>
+        <Heading>Select Tip %</Heading>
         <TipInputs>
           {tips.map((tip) => {
             return (
@@ -186,6 +191,7 @@ export const Calculator: React.FC<Props> = ({}: Props) => {
         onChange={handlePeopleChange}
         error="wrong input"
         id="number-people"
+        imgSrc="/images/icon-person.svg"
         label="Number of People"
         placeholder="0"
         value={numPeople}

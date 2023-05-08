@@ -9,6 +9,7 @@ const Label = styled.label`
   background-color: ${({ theme }) => theme.color.cyan500};
   border-radius: ${({ theme }) => theme.borderRadius.input};
   color: ${({ theme }) => theme.color.white};
+  font-size: ${({ theme }) => theme.fontSize.base600};
   padding: ${({ theme }) =>
     theme.spacing.base400 + " " + theme.spacing.base200};
   cursor: pointer;
