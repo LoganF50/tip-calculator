@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Input = styled.input.attrs({ type: "number" })`
+const Input = styled.input.attrs({ type: "text" })`
   background-color: ${({ theme }) => theme.color.cyan100};
   color: ${({ theme }) => theme.color.cyan500};
   border-radius: ${({ theme }) => theme.borderRadius.input};
@@ -12,17 +12,6 @@ const Input = styled.input.attrs({ type: "number" })`
   width: 100%;
   text-align: right;
   border: 2px solid ${({ theme }) => theme.color.cyan100};
-
-  // remove number arrows (firefox)
-  appearance: textfield;
-  -moz-appearance: textfield;
-
-  // remove number arrows (chrome, safari, edge, opera)
-  &::-webkit-outer-spin-button,
-  ::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
 
   &:hover,
   :focus {
@@ -63,7 +52,7 @@ type NumberInputProps = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   id: string;
   placeholder: string;
-  value: string;
+  value: number | string;
 };
 
 type LabeledNumberInputProps = NumberInputProps & {
