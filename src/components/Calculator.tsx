@@ -14,7 +14,6 @@ const Wrapper = styled.div`
   gap: ${({ theme }) => theme.spacing.base700};
   padding: ${({ theme }) => theme.spacing.base800};
   width: 100%;
-  min-height: 100vh;
 `;
 
 const TipInputs = styled.div`
@@ -51,98 +50,101 @@ type Props = {};
 const initialTips: Tip[] = [
   {
     selected: false,
-    percentage: 0.05,
+    percentage: 5,
     label: "5%",
     id: "tip5",
   },
   {
     selected: false,
-    percentage: 0.1,
+    percentage: 10,
     label: "10%",
     id: "tip10",
   },
   {
     selected: false,
-    percentage: 0.15,
+    percentage: 15,
     label: "15%",
     id: "tip15",
   },
   {
     selected: false,
-    percentage: 0.25,
+    percentage: 25,
     label: "25%",
     id: "tip25",
   },
   {
     selected: false,
-    percentage: 0.5,
+    percentage: 50,
     label: "50%",
     id: "tip50",
   },
 ];
 
 export const Calculator: React.FC<Props> = ({}: Props) => {
-  const [billAmount, setBillAmount] = useState("");
-  const [customTip, setCustomTip] = useState("");
-  const [numPeople, setNumPeople] = useState("");
+  const [billAmount, setBillAmount] = useState<string>("");
+  const [customTip, setCustomTip] = useState<string>("");
+  const [numPeople, setNumPeople] = useState<string>("");
   const [tips, setTips] = useState(initialTips);
+  const DECIMAL_REGEX = /^\d*(\.\d{0,2})?$/; // positive dollar amounts (max 2 decimals)
+  const NUMBER_REGEX = /^\d*$/; // positive integers
+
+  const dollarFormat = (num: number) => {
+    return num.toLocaleString("us-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    });
+  };
 
   const getSelectedTip = () => {
-    tips.map((tip) => {
+    let selectedTip = Number(customTip);
+
+    tips.forEach((tip) => {
       if (tip.selected) {
-        return tip.percentage;
+        selectedTip = tip.percentage;
       }
     });
 
-    return Number(customTip) / 100;
+    return selectedTip / 100;
   };
 
-  // TODO
   const getTipPerPerson = () => {
-    const billAsNum = Number(billAmount);
-    const numPeopleAsNum = Number(numPeople);
-    const tipAsNum = Number(getSelectedTip());
-    const tipPerPerson = Number((billAsNum * tipAsNum) / numPeopleAsNum);
-
+    const tipPerPerson =
+      (Number(billAmount) * getSelectedTip()) / Number(numPeople);
     if (isNaN(tipPerPerson)) {
-      return "$0.00";
+      return 0;
     } else {
-      return tipPerPerson.toLocaleString("us-US", {
-        style: "currency",
-        currency: "USD",
-        minimumFractionDigits: 2,
-      });
+      return tipPerPerson;
     }
   };
 
-  // TODO
   const getTotalPerPerson = () => {
-    return "$32.79";
+    const totalPerPerson =
+      Number(billAmount) / Number(numPeople) + getTipPerPerson();
+    if (isNaN(totalPerPerson)) {
+      return 0;
+    } else {
+      return totalPerPerson;
+    }
   };
 
-  // TODO
-  const handleCustomTipBlur = (e: React.FocusEvent<HTMLInputElement>) => {};
+  const handleBillChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (DECIMAL_REGEX.test(e.target.value)) {
+      setBillAmount(e.target.value);
+    }
+  };
 
   const handleCustomTipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newCustomTip = e.target.value;
-    setCustomTip(newCustomTip);
-    if (newCustomTip !== "") {
+    if (NUMBER_REGEX.test(e.target.value)) {
+      setCustomTip(e.target.value);
       setTips(initialTips);
     }
   };
 
-  // TODO
-  const handleBillBlur = (e: React.FocusEvent<HTMLInputElement>) => {};
-
-  const handleBillChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBillAmount(e.target.value);
-  };
-
-  // TODO
-  const handlePeopleBlur = (e: React.FocusEvent<HTMLInputElement>) => {};
-
-  const handlePeopleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNumPeople(e.target.value);
+  const handleNumPeopleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (NUMBER_REGEX.test(e.target.value)) {
+      setNumPeople(e.target.value);
+    }
   };
 
   const handleTipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -150,19 +152,20 @@ export const Calculator: React.FC<Props> = ({}: Props) => {
       return { ...tip, selected: tip.id === e.target.id };
     });
 
-    setCustomTip("");
     setTips(newTips);
+    setCustomTip("");
   };
 
-  // TODO
   const isResetDisabled = () => {
-    // tips not working rest seems to work
+    let isDisabled = billAmount === "" && customTip === "" && numPeople === "";
+
     tips.forEach((tip) => {
       if (tip.selected) {
-        return false;
+        isDisabled = false;
       }
     });
-    return billAmount === "" && customTip === "" && numPeople === "";
+
+    return isDisabled;
   };
 
   const resetForm = () => {
@@ -172,12 +175,21 @@ export const Calculator: React.FC<Props> = ({}: Props) => {
     setTips(initialTips);
   };
 
+  // TODO
+  const handleCustomTipBlur = (e: React.FocusEvent<HTMLInputElement>) => {};
+
+  // TODO
+  const handleBillBlur = (e: React.FocusEvent<HTMLInputElement>) => {};
+
+  // TODO
+  const handlePeopleBlur = (e: React.FocusEvent<HTMLInputElement>) => {};
+
   return (
     <Wrapper>
       <LabeledNumberInput
         onBlur={handleBillBlur}
         onChange={handleBillChange}
-        error="wrong input"
+        error="can't be empty"
         id="bill-amount"
         imgSrc="/images/icon-dollar.svg"
         label="Bill"
@@ -211,8 +223,8 @@ export const Calculator: React.FC<Props> = ({}: Props) => {
       </TipSection>
       <LabeledNumberInput
         onBlur={handlePeopleBlur}
-        onChange={handlePeopleChange}
-        error="wrong input"
+        onChange={handleNumPeopleChange}
+        error="can't be zero"
         id="number-people"
         imgSrc="/images/icon-person.svg"
         label="Number of People"
@@ -221,8 +233,8 @@ export const Calculator: React.FC<Props> = ({}: Props) => {
       />
       <TipOutput
         disabled={isResetDisabled()}
-        tip={getTipPerPerson()}
-        total={getTotalPerPerson()}
+        tip={dollarFormat(getTipPerPerson())}
+        total={dollarFormat(getTotalPerPerson())}
         onReset={resetForm}
       />
     </Wrapper>
