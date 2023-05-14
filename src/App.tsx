@@ -21,6 +21,11 @@ const StyledApp = styled.div`
   font-family: ${({ theme }) => theme.fontFamily.primary};
   font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
+    justify-content: center;
+    padding: ${({ theme }) => theme.spacing.base600};
+  }
 `;
 
 function App() {

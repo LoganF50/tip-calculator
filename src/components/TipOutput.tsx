@@ -3,16 +3,22 @@ import styled from "styled-components";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1 1 100px;
   background-color: ${({ theme }) => theme.color.cyan500};
   border-radius: ${({ theme }) => theme.borderRadius.base400};
   padding: ${({ theme }) => theme.spacing.base600};
   padding-top: ${({ theme }) => theme.spacing.base900};
   gap: ${({ theme }) => theme.spacing.base800};
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
+    padding: ${({ theme }) => theme.spacing.base1000};
+  }
 `;
 
 const FlexColumn = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
 `;
 
 const FlexRow = styled.div`
@@ -32,6 +38,10 @@ const SubHeader = styled.div`
 
 const Amount = styled.div`
   font-size: ${({ theme }) => theme.fontSize.base700};
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
+    font-size: ${({ theme }) => theme.fontSize.base800};
+  }
 `;
 
 const StyledButton = styled.button`
@@ -47,6 +57,10 @@ const StyledButton = styled.button`
 
   &:disabled {
     opacity: 0.25;
+  }
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
+    margin-top: auto;
   }
 `;
 

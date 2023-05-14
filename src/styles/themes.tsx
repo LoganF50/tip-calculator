@@ -19,6 +19,15 @@ const defaultTheme = {
     base300: "4px",
     base400: "8px",
   },
+  breakpoint: {
+    mobileSm: "320px",
+    mobileMd: "375px",
+    mobileLg: "425px",
+    tablet: "768px",
+    laptop: "1024px",
+    laptopLg: "1440px",
+    desktop: "2560px",
+  },
   duration: {
     short: "250ms",
     medium: "375ms",

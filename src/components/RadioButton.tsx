@@ -21,6 +21,11 @@ const Label = styled.label`
     background-color: ${({ theme }) => theme.color.buttonActive};
     color: ${({ theme }) => theme.color.cyan500};
   }
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
+    padding: ${({ theme }) =>
+      theme.spacing.base400 + " " + theme.spacing.base100};
+  }
 `;
 
 const Input = styled.input.attrs({ type: "radio" })`

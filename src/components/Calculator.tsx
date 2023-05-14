@@ -11,9 +11,17 @@ const Wrapper = styled.div`
   font-size: ${({ theme }) => theme.fontSize.base400};
   display: flex;
   flex-direction: column;
+  flex: 1 1 auto;
   gap: ${({ theme }) => theme.spacing.base700};
   padding: ${({ theme }) => theme.spacing.base800};
   width: 100%;
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
+    border-radius: ${({ theme }) => theme.borderRadius.container};
+    max-width: 900px;
+    flex-direction: row;
+    flex: 0 1 auto;
+  }
 `;
 
 const TipInputs = styled.div`
@@ -22,6 +30,22 @@ const TipInputs = styled.div`
   grid-template-rows: repeat(3, 1fr);
   grid-auto-rows: 1fr;
   gap: ${({ theme }) => theme.spacing.base500};
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  }
+`;
+
+const InputSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 100px;
+  gap: ${({ theme }) => theme.spacing.base700};
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
+    padding: ${({ theme }) => theme.spacing.base300};
+  }
 `;
 
 const TipSection = styled.div`
@@ -193,50 +217,52 @@ export const Calculator: React.FC<Props> = ({}: Props) => {
 
   return (
     <Wrapper>
-      <LabeledNumberInput
-        onBlur={handleBillBlur}
-        onChange={handleBillChange}
-        error={billError}
-        id="bill-amount"
-        imgSrc="/images/icon-dollar.svg"
-        label="Bill"
-        placeholder="0"
-        value={billAmount}
-      />
-      <TipSection>
-        <Heading>Select Tip %</Heading>
-        <TipInputs>
-          {tips.map((tip) => {
-            return (
-              <RadioButton
-                key={tip.id}
-                onChange={handleTipChange}
-                checked={tip.selected}
-                id={tip.id}
-                label={tip.label}
-                name={"tip"}
-                value={tip.label}
-              />
-            );
-          })}
-          <NumberInput
-            onChange={handleCustomTipChange}
-            id="custom-tip"
-            placeholder="Custom"
-            value={customTip}
-          />
-        </TipInputs>
-      </TipSection>
-      <LabeledNumberInput
-        onBlur={handlePeopleBlur}
-        onChange={handleNumPeopleChange}
-        error={numPeopleError}
-        id="number-people"
-        imgSrc="/images/icon-person.svg"
-        label="Number of People"
-        placeholder="0"
-        value={numPeople}
-      />
+      <InputSection>
+        <LabeledNumberInput
+          onBlur={handleBillBlur}
+          onChange={handleBillChange}
+          error={billError}
+          id="bill-amount"
+          imgSrc="/images/icon-dollar.svg"
+          label="Bill"
+          placeholder="0"
+          value={billAmount}
+        />
+        <TipSection>
+          <Heading>Select Tip %</Heading>
+          <TipInputs>
+            {tips.map((tip) => {
+              return (
+                <RadioButton
+                  key={tip.id}
+                  onChange={handleTipChange}
+                  checked={tip.selected}
+                  id={tip.id}
+                  label={tip.label}
+                  name={"tip"}
+                  value={tip.label}
+                />
+              );
+            })}
+            <NumberInput
+              onChange={handleCustomTipChange}
+              id="custom-tip"
+              placeholder="Custom"
+              value={customTip}
+            />
+          </TipInputs>
+        </TipSection>
+        <LabeledNumberInput
+          onBlur={handlePeopleBlur}
+          onChange={handleNumPeopleChange}
+          error={numPeopleError}
+          id="number-people"
+          imgSrc="/images/icon-person.svg"
+          label="Number of People"
+          placeholder="0"
+          value={numPeople}
+        />
+      </InputSection>
       <TipOutput
         disabled={isResetDisabled()}
         tip={dollarFormat(getTipPerPerson())}
