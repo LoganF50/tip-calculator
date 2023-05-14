@@ -223,7 +223,7 @@ export const Calculator: React.FC<Props> = ({}: Props) => {
           onChange={handleBillChange}
           error={billError}
           id="bill-amount"
-          imgSrc="/images/icon-dollar.svg"
+          imgSrc="images/icon-dollar.svg"
           label="Bill"
           placeholder="0"
           value={billAmount}
@@ -257,7 +257,7 @@ export const Calculator: React.FC<Props> = ({}: Props) => {
           onChange={handleNumPeopleChange}
           error={numPeopleError}
           id="number-people"
-          imgSrc="/images/icon-person.svg"
+          imgSrc="images/icon-person.svg"
           label="Number of People"
           placeholder="0"
           value={numPeople}

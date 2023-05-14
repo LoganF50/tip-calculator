@@ -35,7 +35,7 @@ function App() {
         <GlobalStyle />
         <StyledApp>
           <Header>
-            <img src="/images/logo.svg" alt="Splitter" />
+            <img src="images/logo.svg" alt="Splitter" />
           </Header>
           <Calculator />
         </StyledApp>
