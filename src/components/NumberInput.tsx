@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Input = styled.input.attrs({ type: "text" })`
+const Input = styled.input<NumberInputProps>`
   background-color: ${({ theme }) => theme.color.cyan100};
   color: ${({ theme }) => theme.color.cyan500};
   border-radius: ${({ theme }) => theme.borderRadius.input};
@@ -11,7 +11,11 @@ const Input = styled.input.attrs({ type: "text" })`
   min-width: 0; /* inputs come with a min-width > 0 so need to set at 0 then set width to 100% so it'll shrink as expected */
   width: 100%;
   text-align: right;
-  border: 2px solid ${({ theme }) => theme.color.cyan100};
+  border: 2px solid
+    ${({ theme, error }) =>
+      error === "" || error === undefined
+        ? theme.color.cyan100
+        : theme.color.error};
 
   &:hover,
   :focus {
@@ -48,28 +52,30 @@ const Container = styled.div`
 `;
 
 type NumberInputProps = {
-  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
   id: string;
   placeholder: string;
   value: number | string;
 };
 
 type LabeledNumberInputProps = NumberInputProps & {
-  error: string;
-  imgSrc: string;
-  label: string;
+  imgSrc?: string;
+  label?: string;
 };
 
 export const NumberInput: React.FC<NumberInputProps> = ({
   onBlur,
   onChange,
+  error,
   id,
   placeholder,
   value,
 }: NumberInputProps) => {
   return (
     <Input
+      error={error}
       id={id}
       placeholder={placeholder}
       value={value}
@@ -97,6 +103,7 @@ export const LabeledNumberInput: React.FC<LabeledNumberInputProps> = ({
       </Row>
       <Container>
         <Input
+          error={error}
           id={id}
           placeholder={placeholder}
           value={value}

@@ -82,8 +82,10 @@ const initialTips: Tip[] = [
 
 export const Calculator: React.FC<Props> = ({}: Props) => {
   const [billAmount, setBillAmount] = useState<string>("");
+  const [billError, setBillError] = useState<string>("");
   const [customTip, setCustomTip] = useState<string>("");
   const [numPeople, setNumPeople] = useState<string>("");
+  const [numPeopleError, setNumPeopleError] = useState<string>("");
   const [tips, setTips] = useState(initialTips);
   const DECIMAL_REGEX = /^\d*(\.\d{0,2})?$/; // positive dollar amounts (max 2 decimals)
   const NUMBER_REGEX = /^\d*$/; // positive integers
@@ -111,7 +113,7 @@ export const Calculator: React.FC<Props> = ({}: Props) => {
   const getTipPerPerson = () => {
     const tipPerPerson =
       (Number(billAmount) * getSelectedTip()) / Number(numPeople);
-    if (isNaN(tipPerPerson)) {
+    if (!isFinite(tipPerPerson)) {
       return 0;
     } else {
       return tipPerPerson;
@@ -121,11 +123,15 @@ export const Calculator: React.FC<Props> = ({}: Props) => {
   const getTotalPerPerson = () => {
     const totalPerPerson =
       Number(billAmount) / Number(numPeople) + getTipPerPerson();
-    if (isNaN(totalPerPerson)) {
+    if (!isFinite(totalPerPerson)) {
       return 0;
     } else {
       return totalPerPerson;
     }
+  };
+
+  const handleBillBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.target.value === "" ? setBillError("can't be blank") : setBillError("");
   };
 
   const handleBillChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -139,6 +145,14 @@ export const Calculator: React.FC<Props> = ({}: Props) => {
       setCustomTip(e.target.value);
       setTips(initialTips);
     }
+  };
+
+  const handlePeopleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.target.value === "0"
+      ? setNumPeopleError("can't be zero")
+      : e.target.value === ""
+      ? setNumPeopleError("can't be blank")
+      : setNumPeopleError("");
   };
 
   const handleNumPeopleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -170,26 +184,19 @@ export const Calculator: React.FC<Props> = ({}: Props) => {
 
   const resetForm = () => {
     setBillAmount("");
+    setBillError("");
     setCustomTip("");
     setNumPeople("");
+    setNumPeopleError("");
     setTips(initialTips);
   };
-
-  // TODO
-  const handleCustomTipBlur = (e: React.FocusEvent<HTMLInputElement>) => {};
-
-  // TODO
-  const handleBillBlur = (e: React.FocusEvent<HTMLInputElement>) => {};
-
-  // TODO
-  const handlePeopleBlur = (e: React.FocusEvent<HTMLInputElement>) => {};
 
   return (
     <Wrapper>
       <LabeledNumberInput
         onBlur={handleBillBlur}
         onChange={handleBillChange}
-        error="can't be empty"
+        error={billError}
         id="bill-amount"
         imgSrc="/images/icon-dollar.svg"
         label="Bill"
@@ -213,7 +220,6 @@ export const Calculator: React.FC<Props> = ({}: Props) => {
             );
           })}
           <NumberInput
-            onBlur={handleCustomTipBlur}
             onChange={handleCustomTipChange}
             id="custom-tip"
             placeholder="Custom"
@@ -224,7 +230,7 @@ export const Calculator: React.FC<Props> = ({}: Props) => {
       <LabeledNumberInput
         onBlur={handlePeopleBlur}
         onChange={handleNumPeopleChange}
-        error="can't be zero"
+        error={numPeopleError}
         id="number-people"
         imgSrc="/images/icon-person.svg"
         label="Number of People"
