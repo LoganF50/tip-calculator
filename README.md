@@ -34,7 +34,7 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Frontend Mentor Solution URL]()
+- Solution URL: [Frontend Mentor Solution URL](https://www.frontendmentor.io/solutions/responsive-tip-calculator-using-styled-components-react-typescript-nQhHxJmlrB)
 - Live Site URL: [Github Pages URL](https://loganf50.github.io/tip-calculator/)
 
 ## My process
